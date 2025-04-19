@@ -1,5 +1,17 @@
+const songsList = [
+    { name: "Coldplay - Sparks", url: "songs/Coldplay - Sparks.mp3" },
+    { name: "Kendrick Lamar - Not Like Us (Lyrics) Drake Diss", url: "songs/Kendrick Lamar - Not Like Us (Lyrics) Drake Diss.mp3" },
+    { name: "Lil Tecca feat. Juice WRLD - Ransom (Official Audio)", url: "songs/Lil Tecca feat. Juice WRLD - Ransom (Official Audio).mp3" },
+    { name: "Outkast - Ms. Jackson (Official HD Video)", url: "songs/Outkast - Ms. Jackson (Official HD Video).mp3" },
+    { name: "The Weeknd  Timeless with Playboi Carti (Official Music Video)", url: "songs/The Weeknd  Timeless with Playboi Carti (Official Music Video).mp3" },
+    { name: "songs/A. Cooper - Birthdays Arent Fun Anymore", url: "songs/A. Cooper - Birthdays Arent Fun Anymore.mp3" },
+    { name: "songs/Zane Little - Got a Feeling", url: "songs/Zane Little - Got a Feeling.mp3" },
+    { name: "songs/Zane Little - Ill-Fated Fantasy", url: "songs/Zane Little - Ill-Fated Fantasy.mp3" },
+
+];
+
 const appState = {
-    playlists: { "Default": [] },
+    playlists: { "Default": songsList },
     currentPlaylistName: "Default",
     currentIndex: 0,
     playing: false,
