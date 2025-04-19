@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lowland Music Player</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <div id="app">
+        <aside id="sidebar">
+            <h1 id="logo">Lowland</h1>
+            <nav>
+                <button class="nav-btn" data-view="home">Home</button>
+                <button class="nav-btn" data-view="search">Search</button>
+                <button class="nav-btn" data-view="library">Your Library</button>
+            </nav>
+        </aside>
+        <main id="main-content">
+            <!-- Dynamic content will be injected here -->
+        </main>
+        <footer id="bottom-controls">
+            <div id="now-playing">Now Playing: None</div>
+            <div id="playback-controls">
+                <button id="prev-btn">⏮</button>
+                <button id="play-pause-btn">▶</button>
+                <button id="next-btn">⏭</button>
+            </div>
+            <div id="progress-container">
+                <span id="current-time">0:00</span>
+                <input type="range" id="progress-slider" min="0" max="100" value="0" />
+                <span id="total-time">0:00</span>
+            </div>
+            <div id="extra-controls">
+                <button id="shuffle-btn">Shuffle: Off</button>
+                <button id="repeat-btn">Repeat: Off</button>
+                <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="0.5" />
+            </div>
+        </footer>
+    </div>
+    <input type="file" id="file-input" multiple accept=".mp3,.mp4,.wav" style="display:none" />
+    <script src="script.js"></script>
+  </body>
+</html>
