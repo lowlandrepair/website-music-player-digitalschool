@@ -1,13 +1,12 @@
 const songsList = [
-    { name: "Coldplay - Sparks", url: "songs/Coldplay - Sparks.mp3" },
-    { name: "Kendrick Lamar - Not Like Us (Lyrics) Drake Diss", url: "songs/Kendrick Lamar - Not Like Us (Lyrics) Drake Diss.mp3" },
-    { name: "Lil Tecca feat. Juice WRLD - Ransom (Official Audio)", url: "songs/Lil Tecca feat. Juice WRLD - Ransom (Official Audio).mp3" },
-    { name: "Outkast - Ms. Jackson (Official HD Video)", url: "songs/Outkast - Ms. Jackson (Official HD Video).mp3" },
-    { name: "The Weeknd  Timeless with Playboi Carti (Official Music Video)", url: "songs/The Weeknd  Timeless with Playboi Carti (Official Music Video).mp3" },
-    { name: "songs/A. Cooper - Birthdays Arent Fun Anymore", url: "songs/A. Cooper - Birthdays Arent Fun Anymore.mp3" },
-    { name: "songs/Zane Little - Got a Feeling", url: "songs/Zane Little - Got a Feeling.mp3" },
-    { name: "songs/Zane Little - Ill-Fated Fantasy", url: "songs/Zane Little - Ill-Fated Fantasy.mp3" },
-
+    { name: "Coldplay - Sparks", url: "songs/Coldplay - Sparks.mp3", artist: "Coldplay", album: "Parachutes", year: "2000", genre: "Alternative" },
+    { name: "Kendrick Lamar - Not Like Us (Lyrics) Drake Diss", url: "songs/Kendrick Lamar - Not Like Us (Lyrics) Drake Diss.mp3", artist: "Kendrick Lamar", album: "Not Like Us", year: "2024", genre: "Hip-Hop" },
+    { name: "Lil Tecca feat. Juice WRLD - Ransom (Official Audio)", url: "songs/Lil Tecca feat. Juice WRLD - Ransom (Official Audio).mp3", artist: "Lil Tecca, Juice WRLD", album: "We Love You Tecca", year: "2019", genre: "Hip-Hop" },
+    { name: "Outkast - Ms. Jackson (Official HD Video)", url: "songs/Outkast - Ms. Jackson (Official HD Video).mp3", artist: "Outkast", album: "Stankonia", year: "2000", genre: "Hip-Hop" },
+    { name: "The Weeknd Timeless with Playboi Carti (Official Music Video)", url: "songs/The Weeknd Timeless with Playboi Carti (Official Music Video).mp3", artist: "The Weeknd, Playboi Carti", album: "Hurry Up Tomorrow", year: "2024", genre: "R&B" },
+    { name: "A. Cooper - Birthdays Arent Fun Anymore", url: "songs/A. Cooper - Birthdays Arent Fun Anymore.mp3", artist: "A. Cooper", album: "Unknown", year: "Unknown", genre: "Indie" },
+    { name: "Zane Little - Got a Feeling", url: "songs/Zane Little - Got a Feeling.mp3", artist: "Zane Little", album: "Unknown", year: "Unknown", genre: "Indie" },
+    { name: "Zane Little - Ill-Fated Fantasy", url: "songs/Zane Little - Ill-Fated Fantasy.mp3", artist: "Zane Little", album: "Unknown", year: "Unknown", genre: "Indie" },
 ];
 
 const appState = {
@@ -102,6 +101,8 @@ function showView(view) {
         showHome();
     } else if (view === "library") {
         showLibrary();
+    } else if (view === "song-detail") {
+        showSongDetail(appState.currentIndex);
     }
 }
 
@@ -118,7 +119,10 @@ function showHome() {
         btn.className = "song-button";
         btn.textContent = song.name;
         btn.title = song.name;
-        btn.onclick = () => loadSong(index);
+        btn.onclick = () => {
+            appState.currentIndex = index;
+            showView("song-detail");
+        };
         grid.appendChild(btn);
     });
     elements.mainContent.appendChild(grid);
@@ -138,7 +142,10 @@ function showLibrary() {
         const item = document.createElement("div");
         item.className = "listbox-item";
         item.textContent = song.name;
-        item.onclick = () => loadSong(index);
+        item.onclick = () => {
+            appState.currentIndex = index;
+            showView("song-detail");
+        };
         listbox.appendChild(item);
     });
     elements.mainContent.appendChild(listbox);
@@ -146,9 +153,54 @@ function showLibrary() {
     elements.fileInput.onchange = (e) => {
         const files = e.target.files;
         const currentPlaylist = appState.playlists[appState.currentPlaylistName];
-        Array.from(files).forEach(file => currentPlaylist.push({ name: file.name, url: URL.createObjectURL(file) }));
+        Array.from(files).forEach(file => currentPlaylist.push({ 
+            name: file.name, 
+            url: URL.createObjectURL(file),
+            artist: "Unknown",
+            album: "Unknown",
+            year: "Unknown",
+            genre: "Unknown"
+        }));
         showLibrary();
     };
+}
+
+function showSongDetail(index) {
+    const playlist = appState.playlists[appState.currentPlaylistName];
+    if (index < 0 || index >= playlist.length) {
+        elements.mainContent.textContent = "No song selected.";
+        return;
+    }
+    const song = playlist[index];
+    const detailDiv = document.createElement("div");
+    detailDiv.className = "song-detail";
+    
+    const title = document.createElement("h2");
+    title.textContent = song.name;
+    detailDiv.appendChild(title);
+
+    const artist = document.createElement("p");
+    artist.textContent = `Artist: ${song.artist}`;
+    detailDiv.appendChild(artist);
+
+    const album = document.createElement("p");
+    album.textContent = `Album: ${song.album}`;
+    detailDiv.appendChild(album);
+
+    const year = document.createElement("p");
+    year.textContent = `Year: ${song.year}`;
+    detailDiv.appendChild(year);
+
+    const genre = document.createElement("p");
+    genre.textContent = `Genre: ${song.genre}`;
+    detailDiv.appendChild(genre);
+
+    const playBtn = document.createElement("button");
+    playBtn.textContent = "Play Song";
+    playBtn.onclick = () => loadSong(index);
+    detailDiv.appendChild(playBtn);
+
+    elements.mainContent.appendChild(detailDiv);
 }
 
 function skipForward(seconds = 10) {
